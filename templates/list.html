@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load app_tags %}
+
+
+{% block customCss %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+{% endblock customCss %}
+
+{% block header %}
+<div class="jumbotron">
+    <h1 class="display-4">日記</h1>
+    <p class="lead">日記を書いて日々の成長を記録しよう！</p>
+    <hr class="my-4">
+    <a class="btn btn-primary" href="{% url 'create' %}" role="button">新規作成</a>
+    <a class="btn btn-primary" href="{% url 'account_logout' %}">ログアウト</a>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+    {% for item in latest %}
+    {% if item.submitter == user %}
+        <div class="alert alert-info col-md-3 diary" role="alert">
+            <a class="text-center" href="{% url 'detail' item.pk %}">{{ item.date.year }}年{{ item.date.month }}月{{ item.date.day }}日</a>
+            <p class="content text-center">{{ item.event | truncatechars:100 }}</p>
+            <nav class="nav">
+                <a class="btn btn-primary" href="{% url 'update' item.pk %}">編集</a>
+                <a class="btn btn-primary" href="{% url 'delete' item.pk %}">削除</a>
+            </nav>
+        </div>
+    {% endif %}
+    {% endfor %}
+</div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<hr>
+<div class="container">
+    <div class="row">
+        <!--
+        <div class="col-md-4">
+            <h2>Archives</h2>
+            {% render_month_links %}
+        </div>
+        -->
+        <div class="col-md-8 social padding">
+            <a href="https://www.facebook.com/profile.php?id=100043832032835"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/t_uha_y"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/t.uha.y/"><i class="fab fa-instagram"></i></a>
+        </div>
+        <!--
+        {% for post in object_list %}
+        {% if post.submitter == user %}
+            <p><a href="{% url 'month' post.date.year post.date.month %}">{{ post.date.year}}年{{ post.date.month}}月</a></p>
+        {% endif %}
+        {% endfor %}
+        -->
+    </div>
+</div>
+
+
+{% endblock footer %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">日付</label>
+            <input type="date" name="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">目標</label>
+            <input type="text" name="dream" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">出来事</label>
+            <textarea name="event" class="form-control" id="exampleInputEmail1" cols="30" rows="10" aria-describedby="emailHelp"></textarea>
+        </div>
+        <input type="hidden" name="submitter" value="{{ user.id }}">
+        <input type="submit" class="btn btn-outline-primary" value="作成">
+    </form>
+    <p>{{ submitter }}</p>
+</div>
+{% endblock content %}

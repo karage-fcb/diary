@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block customCss %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+{% endblock customCss %}
+
+<!-- ヘッダー -->
+{% block header %}
+<div class="jumbotron">
+    <h1 class="display-4">日記</h1>
+    <p class="lead">日記を書いて日々の成長を記録しよう！</p>
+    <hr class="my-4">
+    <a class="btn btn-primary" href="{% url 'create' %}" role="button">新規作成</a>
+    <a class="btn btn-primary" href="{% url 'list' %}" role="button">ホームに戻る</a>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<h1 class="text-center">{{ month | date:"Y年m月"}}の全ての記事</h1>
+<div class="container">
+    {% if previous_month %}
+    <a href="{% url 'month' previous_month.year previous_month.month  %}">
+      前月
+    </a>
+    {% endif %}
+    {% if next_month %}
+    <div class="text-right">
+      <a href="{% url 'month' next_month.year next_month.month  %}">
+          次月
+      </a>
+    </div>
+    {% endif %}
+</div>
+
+<hr>
+
+<div class="container">
+    <div class="row">
+        {% for post in object_list %}
+        {% if post.submitter == user %}
+        <div class="alert alert-info col-md-3 diary" role="alert">
+            <p><a href="{% url 'detail'　post.pk %}">{{ post.date.year}}年{{ post.date.month}}月{{ post.date.day}}日</a></p>
+            <p class="content text-center">{{ post.event | truncatechars:100 }}</p>
+            <nav class="nav">
+                <a class="btn btn-primary" href="{% url 'update' post.pk %}">編集</a>
+                <a class="btn btn-primary" href="{% url 'delete' post.pk %}">削除</a>
+            </nav>
+        </div>
+        {% endif %}
+        {% endfor %}    
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<hr>
+<div class="container">
+    <div class="row">
+        <!--
+        <div class="col-md-4">
+            <h2>Archives</h2>
+            {% render_month_links %}
+        </div>
+        -->
+        <div class="col-md-8 social padding">
+            <a href="https://www.facebook.com/profile.php?id=100043832032835"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/t_uha_y"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/t.uha.y/"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock footer %}

@@ -1,0 +1,30 @@
+.diary:hover {
+    overflow: hidden;
+    transform: scale(1.1);
+    transition-duration: 1s;
+  }
+.diary{
+    margin: 2rem;
+    padding: 1rem;
+}
+.social a {
+    font-size: 3rem;
+    padding: 3rem;
+}
+.fa-facebook{
+    color: #3b5998;
+}
+.fa-twitter {
+    color: #00aced;
+}
+.fa-instagram {
+    color: #517fa4;
+}
+.fa-facebook:hover,
+.fa-twitter:hover ,
+.fa-instagram:hover {
+    color: #d5d5d5;
+}
+.nav-link{
+    margin: 1rem;
+}

@@ -1,0 +1,15 @@
+{% regroup dates by year as dates_by_year %}
+<ul style="list-style: none;">
+    {% for month in dates_by_year %}
+        <li><a href="{% url 'diarymodel_year_archive' month.grouper %}">{{ month.grouper }}年</a>
+            <ul style="list-style: none;">
+                {% for d in month.list %}
+                    <li><a href="{% url 'month' month.grouper d.month %}">{{ d|date:'F' }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    {% for obj in data %}
+        <p>{{ obj.submitter }}</p>
+    {% endfor %}
+</ul>

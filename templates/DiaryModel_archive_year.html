@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block customCss %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+{% endblock customCss %}
+
+<!-- ヘッダー -->
+{% block header %}
+<div class="jumbotron">
+    <h1 class="display-4">日記</h1>
+    <p class="lead">日記を書いて日々の成長を記録しよう！</p>
+    <hr class="my-4">
+    <a class="btn btn-primary" href="{% url 'create' %}" role="button">新規作成</a>
+    <a class="btn btn-primary" href="{% url 'list' %}" role="button">ホームに戻る</a>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">All Diary for {{ year|date:"Y" }}</h1>
+    {% if previous_year %}
+        <a href="{% url 'diarymodel_year_archive' previous_year.year %}">
+            前年
+        </a>
+    {% endif %}
+    {% if next_year %}
+        <div class="text-right">
+            <a href="{% url 'diarymodel_year_archive' next_year.year %}">
+                次年
+            </a>
+        </div>
+    {% endif %}
+    <div class="row">
+    {% for obj in object_list %}
+        {% if obj.submitter == user %}
+        <div class="alert alert-info col-md-3 text-center diary" role="alert">
+            <p>
+                <a href="{% url 'detail'　obj.pk %}">{{ obj.date.year}}年{{ obj.date.month}}月{{ obj.date.day}}日</a>
+                <p class="content text-center">{{ obj.event | truncatechars:100 }}</p>
+                <nav class="nav">
+                    <a class="btn btn-primary" href="{% url 'update' obj.pk %}">編集</a>
+                    <a class="btn btn-primary" href="{% url 'delete' obj.pk %}">削除</a>
+                </nav>
+            </p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+<hr>
+<div class="container">
+    <div class="row">
+        <!--
+        <div class="col-md-4">
+            <h2>Archives</h2>
+            {% render_month_links %}
+        </div>
+        -->
+        <div class="col-md-8 social padding">
+            <a href="https://www.facebook.com/profile.php?id=100043832032835"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/t_uha_y"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/t.uha.y/"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</div>
+
+{% endblock footer %}
