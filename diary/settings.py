@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'diaryapp',
-    'django_feedparser',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
