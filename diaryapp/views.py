@@ -13,16 +13,16 @@ class ArchiveListMixin:
     allow_empty = True
     make_object_list = True
 
-"""
+
 class OnlyYouMixin(UserPassesTestMixin):
     raise_exception = True
 
     def test_func(self):
         # 今ログインしてるユーザーのpkと、そのユーザー情報ページのpkが同じか、又はスーパーユーザーなら許可
         user = self.request.user
-        
-        return user.pk == submitter.id
-"""
+        # return user.pk == self.kwargs['pk']
+        return user.pk == self.kwargs['pk']
+
 
 class DiaryList(LoginRequiredMixin, ListView, ArchiveIndexView):
     login_url = '/accounts/login/'
@@ -42,7 +42,7 @@ class DiaryCreate(LoginRequiredMixin, CreateView):
     fields = ('date', 'dream', 'event', 'submitter')
     success_url = reverse_lazy('list')
 
-class DiaryDelete(LoginRequiredMixin, DeleteView):
+class DiaryDelete(OnlyYouMixin, LoginRequiredMixin, DeleteView):
     login_url = '/accounts/login/'
     template_name = 'delete.html'
     model = DiaryModel
